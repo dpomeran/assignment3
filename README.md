@@ -9,7 +9,7 @@ https://msin636project2.herokuapp.com/
 <img src="./screenshots/signup.jpg">
 
 <h2>Error messages </h2>
-<img src="./screenshots/errors.jpg">
+<img src="./screenshots/erorrs.jpg">
 
 <h2>User loged in </h2>
 <img src="./screenshots/user.jpg">

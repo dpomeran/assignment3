@@ -1,6 +1,6 @@
-<h1>Project 1</h1>
+<h1>Project 2</h1>
 For project Demo click on the following link 
-https://msin636project1.herokuapp.com/
+https://msin636project2.herokuapp.com/
 
 <h2>Login Page </h2>
 <img src="./screenshots/home.jpg">

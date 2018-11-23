@@ -1,0 +1,43 @@
+
+
+ul.success li{
+  padding:15px;
+  margin-bottom:20px;
+  boarder:1px solid transparent;
+  boarder-radius:4px;
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color:#d6e9c6;
+  list-style: none;
+  cursor: pointer;
+}
+ul.error li{
+  padding:15px;
+  margin-bottom:20px;
+  boarder:1px solid transparent;
+  boarder-radius:4px;
+  color: #a94442;
+  background-color: #f2dede;
+  border-color:#ebccd1;
+  list-style: none;
+  cursor: pointer;
+}
+
+#login{
+  -webkit-box-shadow: 1px 1px 10px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    1px 1px 10px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         1px 1px 10px 2px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  border-radius: 5px;
+}
+
+.profileimage{
+display:inline;
+align:middle;
+}
+.mainalert{
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-top:0px;
+  padding-bottom:0px;
+
+}

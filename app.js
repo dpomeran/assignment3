@@ -29,7 +29,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Handle sessionsnpm start
-app.use(session({secret:'secret'}));
+app.use(session({
+  secret:'secret',
+  resave: true,
+  saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(expressValidator());

@@ -1,14 +1,15 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
-
-mongoose.connect('mongodb://alfred:password00@ds249233.mlab.com:49233/msin636',{useNewUrlParser:true});
+config = require('../config.js');
+mongoose.connect(databaseString,{useNewUrlParser:true});
 
 var UserSchema = mongoose.Schema({
   username:{type: String},
   password:{type: String},
   email:{type: String},
   name:{type: String },
-  profileimage:{type: String}
+  profileimage:{type: String},
+  forgetpassword: Boolean
   });
 
 var User = module.exports = mongoose.model('User', UserSchema)

@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var router = express.Router();
 var multer  = require('multer')
 var upload = multer({ dest: 'public/uploads/' })
@@ -7,7 +8,19 @@ var flash= require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy
+var nodemailer = require('nodemailer');
 var server_errors = [];
+
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'touro.msin.636@gmail.com',
+        pass: 'tourocollege'
+    }
+});
+
+
 router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Sign up' });
 });
@@ -23,7 +36,44 @@ router.get('/logout', function(req,res){
   res.redirect('/users/login');
 });
 
+router.get('/forget', function(req,res){
+  res.render('forget', { title: 'Forgot Password' });
+});
 
+router.post('/forget', function(req,res){
+  console.log('Form Email: '+ req.body.email);
+  User.getUserByEmail(req.body.email,function(err,user){
+    console.log('Email: '+ user.email);
+    if (err)
+    {
+      req.flash('error', 'Sorry, we dont recognize that email.');
+      return;
+    }
+    User.updateOne({_id:user._id}, {$set:{forgetpassword:true}}, function(err, result) {
+    if (err)
+        throw err;
+    });
+    var url = path.join('localhost:3000', ('/users/reset/' + user._id));
+    var message = 'Hi '+ user.name + ', Your reset link is: ' + url;
+
+    var mailOptions = {
+					from: 'touro.msin.636@gmail.com',
+					to: user.email,
+					subject: 'For '+ user.username + ': Reset Password',
+					text: message
+				};
+				transporter.sendMail(mailOptions, function(error, info){
+					if (error) {
+						console.log(error);
+					} else {
+						console.log('Email sent: ' + info.response);
+					}
+				});
+        req.flash('success', 'Check your email for a link to reset your password');
+        res.location('/');
+        res.redirect('/users/forget');
+  });
+});
 
 router.post('/login',
   passport.authenticate('local', { failureRedirect: '/users/login', failureFlash: ' Invalid Username or Password'}),
@@ -33,14 +83,14 @@ router.post('/login',
   });
 
 router.post('/signup',upload.single('avatar'), function(req, res, next) {
-	
+
     var name = req.body.name;
     var email = req.body.email;
     var username = req.body.username;
     var password = req.body.password;
     var password2 = req.body.password2;
     var name = req.body.name;
-    
+
 	if(req.file){
       var profileimage = "/uploads/"+ req.file.filename;
       console.log(req.file);
@@ -56,14 +106,14 @@ router.post('/signup',upload.single('avatar'), function(req, res, next) {
     req.checkBody('password', 'password field is required').notEmpty();
     req.checkBody('password2', 'Password do not match').equals(req.body.password);
     // check errors
-	
 
-		
+
+
     var errors = req.validationErrors();
 
     if(errors){
       res.render('signup', {errors: errors, server_errors:server_errors, title:'Sign up'})
-	  
+
     }else{
       var newUser = new User({
         name: name,
@@ -72,7 +122,7 @@ router.post('/signup',upload.single('avatar'), function(req, res, next) {
         password: password,
         profileimage: profileimage
       });
-	  
+
 
       User.createUser(newUser, function(err,user){
         if(err) throw err;

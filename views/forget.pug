@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  .row
+    .col-md-4
+    .col-lg-4#login
+      .text-center
+        h2.text-center.page-header(style='margin:2px;padding:5px;') Enter Your Email
+      form(method="post" action="/users/forget")
+        input.form-control(name='email', type='text', placeholder='Email', autofocus='')
+        .form-group
+        input.btn-block.btn.btn-primary(name='submit', type='submit', value='Login')
+        br
+        br
+        br

@@ -9,7 +9,7 @@ var UserSchema = mongoose.Schema({
   email:{type: String},
   name:{type: String },
   profileimage:{type: String},
-  forgetpassword: Boolean
+  forgetpassword: {type: Boolean, default: false}
   });
 
 var User = module.exports = mongoose.model('User', UserSchema)
@@ -19,6 +19,11 @@ module.exports.getUserById=function(id,callback){
 
 module.exports.getUserByUsername = function(username,callback){
   var query = {username:username};
+  User.findOne(query, callback);
+}
+
+module.exports.getUserByEmail = function(email,callback){
+  var query = {email:email};
   User.findOne(query, callback);
 }
 
